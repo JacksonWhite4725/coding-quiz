@@ -1,11 +1,12 @@
 // Selects elements from HTML
 var timeEl = document.querySelector("#timer");
-
-var secondsLeft = 75;
+var startBtn = document.querySelector("#start-button");
 
 // Borrowed ideas for this timer function from Activity 9, Week 4 DU Coding Bootcamp
-function setTime() {
+// Function to start the timer at the top right corner
+function startTimer() {
     // Sets interval in variable
+    var secondsLeft = 75;
     var timerInterval = setInterval(function() {
       secondsLeft--;
       timeEl.textContent = "Time Left: " + secondsLeft;
@@ -24,4 +25,4 @@ function sendMessage() {
     timeEl.textContent = "TIME'S UP!";
 }
 
-setTime();
+startBtn.addEventListener("click", startTimer);
