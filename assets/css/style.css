@@ -52,3 +52,8 @@ body {
     border-radius: 10px;
     margin: 0 auto;
 }
+
+/* Hides any element with this class */
+.hide {
+    display: none;
+}

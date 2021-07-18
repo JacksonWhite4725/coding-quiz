@@ -1,16 +1,20 @@
 // Selects elements from HTML
-var timeEl = document.querySelector("#timer");
-var startBtn = document.querySelector("#start-button");
+var timeEl = document.getElementById("timer");
+var startBtn = document.getElementById("start-button");
+var introText = document.getElementById("intro-text");
+var introTitle = document.getElementById("intro-title");
+var startBtnCont = document.getElementById("start-button-container");
 
 // Create new global variables
 var score = 0
 var questionList = ["A", "B", "C", "D", "E", "F", "G"]; // Template questions, will be updated later
 
-
+// Initializes the game, primary function
 function startGame() {
-    // THIS FUNCTION WILL START THE GAME AFTER START BUTTON IS PRESSED
+    hideStarterElements();
     startTimer();
     randomizeQuestions();
+
 }
 
 // Borrowed ideas for this timer function from Activity 9, Week 4 DU Coding Bootcamp
@@ -45,6 +49,13 @@ function randomizeQuestions() {
         [questionList[currentIndex], questionList[randomIndex]] = [questionList[randomIndex], questionList[currentIndex]];
     }
     return questionList;
+}
+
+// This function removes our introduction page to start the quiz
+function hideStarterElements() {
+    startBtnCont.classList.add("hide");
+    introText.classList.add("hide");
+    introTitle.classList.add("hide");
 }
 
 startBtn.addEventListener("click", startGame);
