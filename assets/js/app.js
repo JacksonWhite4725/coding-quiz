@@ -5,6 +5,9 @@ var introText = document.getElementById("intro-text");
 var introTitle = document.getElementById("intro-title");
 var startBtnCont = document.getElementById("start-button-container");
 var questionCont = document.getElementById("question-container");
+var questionEl = document.getElementById("question");
+var answerEl = document.getElementsByClassName("answer-btn")
+var answerBtn1 = document.getElementById("answer-btn-1")
 
 // Create new global variables
 var score = 0
@@ -57,7 +60,10 @@ function startGame() {
     visibleStarterElements();
     startTimer();
     randomizeQuestions();
-    console.log(questionList);
+    for (let i = 0; i < questionList.length - 1; i++) {
+        var question = questionList[i];
+        showQuestion(question);
+    }
 }
 
 // Borrowed ideas for this timer function from Activity 9, Week 4 DU Coding Bootcamp
@@ -100,6 +106,17 @@ function visibleStarterElements() {
     introText.classList.add("hide");
     introTitle.classList.add("hide");
     questionCont.classList.remove("hide");
+}
+
+function showQuestion(question) {
+    questionEl.innerText = question.question;
+    console.log(question);
+    for (var i = 0; i < question.answers.length; i++) {
+        var answerText = question.answers[i].text;
+        answerBtn1.innerText = answerText;
+        console.log(answerText);
+        //answerEl.textContent(question.answers[i].text);
+    }
 }
 
 startBtn.addEventListener("click", startGame);
