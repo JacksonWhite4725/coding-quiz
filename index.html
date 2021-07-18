@@ -1,36 +1,38 @@
+<!--This new page file is largely based on the structure from Web Dev Simplified - https://www.youtube.com/watch?v=riDzcEQbX6k&ab_channel=WebDevSimplified -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Quiz</title>
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./assets/css/reset.css">
+  <link rel="stylesheet" href="./assets/css/new.style.css">
+  <title>Website Development Quiz</title>
 </head>
 <body>
     <header>
-        <div class="nav-bar">
+        <div class="top-bar">
             <a href="#" id="highscore-link">View Highscores</a>
             <p id="timer"></p>
         </div>
     </header>
-    <main>
-        <h1 class="large-font" id="intro-title">Website Development Code Quiz</h1>
-        <h2 class="medium-font" id="intro-text">Welcome to the beginner level website development code quiz! In this quiz, you can gauge your own knowledge and compete against peers. The score is based on how quickly you can complete this quiz. But be careful! Every question wrong deducts 10 seconds from the timer. You have 75 seconds to start with. Click the start button to begin! Good luck!</h2>
-        <div id="start-button-container">
-            <button id="start-button" class="button">Start Game</button>
+    <div class="container">
+        <div id="intro-container">
+            <h1 id="intro-title" class="large-font">Website Development Code Quiz</h1>
+            <h2 id="intro-text" class="medium-font">Welcome to the beginner level website development code quiz! In this quiz, you can gauge your own knowledge and compete against peers. The score is based on how quickly you can complete this quiz. But be careful! Every question wrong deducts 10 seconds from the timer. You have 75 seconds to start with. Click the start button to begin! Good luck!</h2>
         </div>
         <div id="question-container" class="hide">
-            <div id="question" class="medium-font">Question</div>
-            <div id="answer-buttons">
-                <button class="button" id="answer-btn-1">Answer 1</button>
-                <button class="button answer-btn-2">Answer 2</button>
-                <button class="button answer-btn-3">Answer 3</button>
-                <button class="button answer-btn-4">Answer 4</button>
+            <div id="question">Question</div>
+            <div id="answer-buttons" class="btn-list">
+                <button class="btn">Answer 1</button>
+                <button class="btn">Answer 2</button>
+                <button class="btn">Answer 3</button>
+                <button class="btn">Answer 4</button>
             </div>
         </div>
-    </main>
-    <script src="./assets/js/app.js"></script>
+        <button id="start-btn" class="start-btn btn">Start Game</button>
+    </div>
+    <script src="./assets/js/new-app.js"></script>
 </body>
 </html>

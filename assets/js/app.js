@@ -1,17 +1,112 @@
-// Selects elements from HTML
-var timeEl = document.getElementById("timer");
-var startBtn = document.getElementById("start-button");
-var introText = document.getElementById("intro-text");
-var introTitle = document.getElementById("intro-title");
-var startBtnCont = document.getElementById("start-button-container");
-var questionCont = document.getElementById("question-container");
-var questionEl = document.getElementById("question");
-var answerEl = document.getElementsByClassName("answer-btn")
-var answerBtn1 = document.getElementById("answer-btn-1")
+/* This new app file is largely based on the logic from Web Dev Simplified - https://www.youtube.com/watch?v=riDzcEQbX6k&ab_channel=WebDevSimplified */
 
-// Create new global variables
-var score = 0
-var questionList = [
+/* Pull in HTML elements using element ID's */
+const startButton = document.getElementById("start-btn");
+const introContainerEl = document.getElementById("intro-container");
+let timeEl = document.getElementById("timer");
+const questionContainerElement = document.getElementById("question-container");
+const questionElement = document.getElementById("question");
+const answerButtonsElement = document.getElementById("answer-buttons");
+
+/* Create backend variables */
+// These variables are empty at first, will go through a function that shuffles questions and uses the index to cycle through them
+let shuffledQuestions, currentQuestionIndex;
+
+/* Adds event listeners to interact with the page */
+// This event listener waits for user to click the start button, then initializes the start game function
+startButton.addEventListener("click", startGame);
+
+// This event listener sets a new question when a user answers by clicking
+answerButtonsElement.addEventListener("click", () => {
+    currentQuestionIndex++;
+    setNextQuestion();
+})
+
+/* Develop all neccessary functions */
+// This function begins the game, by calling on starting the timer, hiding the intro information, creating a randomized array of shuffled questions, displaying the question container, and calling on the set next question function
+function startGame() {
+    startTimer();
+    introContainerEl.classList.add("hide");
+    startButton.classList.add("hide");
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    questionContainerElement.classList.remove("hide");
+    setNextQuestion();
+}
+
+// This function first calls on the resetState function to clear out the container, then calls the showQuestion function by providing an index of our shuffled questions from the start game function. The index increases in value from the event listener above
+function setNextQuestion() {
+  resetState();
+  showQuestion(shuffledQuestions[currentQuestionIndex]);
+}
+
+// This function takes in one question at a time, then displays the question text inside, and loops through each answer, creating a button for each. Additionally, it classifies which answers are correct and provides event listeners for each answer that calls the selectAnswer function
+function showQuestion(question) {
+  questionElement.innerText = question.question;
+  question.answers.forEach(answer => {
+    const button = document.createElement("button");
+    button.innerText = answer.text;
+    button.classList.add("btn");
+    if (answer.correct) {
+      button.dataset.correct = answer.correct;
+    }
+    button.addEventListener("click", selectAnswer);
+    answerButtonsElement.appendChild(button);
+  })
+}
+
+// This function begins a timer and updates it after it's called in the beginning of the game
+function startTimer() {
+    var secondsLeft = 75;
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timeEl.textContent = "Time Left: " + secondsLeft;
+  
+      if(secondsLeft === 0) {
+        clearInterval(timerInterval);
+        endGame();
+        }
+    }, 1000);
+}
+
+// Resets the page by calling clearStatusClass, then creates a while loop that removes all the children of of the answerButtonsElement so more can be created for the next question
+function resetState() {
+  clearStatusClass(document.body);
+  while (answerButtonsElement.firstChild) {
+    answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+  }
+}
+
+// Takes in a random argument, assigns selected button a variable, as well as the correctness of the answer, then calls the setStatusClass function. Checks if there are still questions remaining, then hides or shows a start button based on the info.
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+    setStatusClass(document.body, correct);
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct);
+    });
+    if (shuffledQuestions.length <= currentQuestionIndex + 1) {
+        startButton.innerText = "Restart Game";
+        startButton.classList.remove("hide");
+        questionContainerElement.classList.add("hide");
+    }
+}
+
+function setStatusClass(element, correct) {
+  clearStatusClass(element);
+  if (correct) {
+    element.classList.add("correct");
+  } else {
+    element.classList.add("wrong");
+  }
+}
+
+function clearStatusClass(element) {
+  element.classList.remove("correct");
+  element.classList.remove("wrong");
+}
+
+const questions = [
     {
         question: "Commonly used data types DO NOT include:",
         answers: [
@@ -53,70 +148,4 @@ var questionList = [
             {text: "Terminal/Bash", correct: false}
         ]
     }
-]
-
-// Initializes the game, primary function
-function startGame() {
-    visibleStarterElements();
-    startTimer();
-    randomizeQuestions();
-    for (let i = 0; i < questionList.length - 1; i++) {
-        var question = questionList[i];
-        showQuestion(question);
-    }
-}
-
-// Borrowed ideas for this timer function from Activity 9, Week 4 DU Coding Bootcamp
-// Function to start the timer at the top right corner
-function startTimer() {
-    // Sets interval in variable
-    var secondsLeft = 75;
-    var timerInterval = setInterval(function() {
-      secondsLeft--;
-      timeEl.textContent = "Time Left: " + secondsLeft;
-  
-      if(secondsLeft === 0) {
-        // Stops execution of action at set interval
-        clearInterval(timerInterval);
-        // Calls function display end screen
-        endGame();
-        }
-    }, 1000);
-}
-
-// Function to edit timer message, eventually will also be used to take user to end screen
-function endGame() {
-    timeEl.textContent = "TIME'S UP!";
-}
-
-// This function randomly shuffles questions to make the quiz more difficult. Credit to the Fisher-Yates Shuffle for this function logic.
-function randomizeQuestions() {
-    var currentIndex = questionList.length, randomIndex;
-    while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [questionList[currentIndex], questionList[randomIndex]] = [questionList[randomIndex], questionList[currentIndex]];
-    }
-    return questionList;
-}
-
-// This function changes the visibility of items on our page
-function visibleStarterElements() {
-    startBtnCont.classList.add("hide");
-    introText.classList.add("hide");
-    introTitle.classList.add("hide");
-    questionCont.classList.remove("hide");
-}
-
-function showQuestion(question) {
-    questionEl.innerText = question.question;
-    console.log(question);
-    for (var i = 0; i < question.answers.length; i++) {
-        var answerText = question.answers[i].text;
-        answerBtn1.innerText = answerText;
-        console.log(answerText);
-        //answerEl.textContent(question.answers[i].text);
-    }
-}
-
-startBtn.addEventListener("click", startGame);
+];

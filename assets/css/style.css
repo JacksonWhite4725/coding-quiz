@@ -1,60 +1,54 @@
-/* Adjusts styling for whole body of HTML - maintains white background and adjusts font family */
+/* This new style sheet is largely based on the styling from Web Dev Simplified - https://www.youtube.com/watch?v=riDzcEQbX6k&ab_channel=WebDevSimplified */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
     background-color: white;
+    display: flex;
     font-family:'Times New Roman', Times, serif;
 }
 
-/* Styles the div that contains the highscore link and timer */
-.nav-bar {
+.top-bar {
     width: 95%;
     margin: 20px;
 }
 
-/* Makes the link to view highscores appear at the left side of the page */
 #highscore-link {
     float: left;
 }
 
-/* Makes the timer appear at the right side of the page */
 #timer {
     float: right;
 }
 
-/* Styles large font class divs */
+.container {
+    width: 80%;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 100px;
+    box-shadow: 0 0 5px 2px;
+}
+
 .large-font {
     font-size: 45px;
     text-align: center;
     font-weight: 500;
-    padding-top: 100px;
-    padding-bottom: 50px;
     width: 75%;
+    padding-top: 10px;
     margin: 0 auto;
 }
 
-/* Styles medium font class divs */
 .medium-font {
     font-size: 25px;
     text-align: center;
     font-weight: 350;
-    padding-bottom: 50px;
-    width: 75%;
+    padding-top: 10px;
+    width: 100%;
     margin: 0 auto;
 }
-
-/* Shifts the question more towards the center, away from top of page */
-#question {
-    padding-top: 100px;
-    font-weight: 700;
-}
-
-/* Styles the start button */
-#start-button {
-    font-size: 35px;
-    margin: 0 auto;
-}
-
-/* Provides general styling for buttons */
-.button {
+  
+.btn {
+    font-family: 'Roboto', sans-serif;
     font-size: 20px;
     display: block;
     color: white;
@@ -65,14 +59,17 @@ body {
     border-radius: 10px;
     margin-bottom: 8px;
 }
-
-/* Places answer buttons more towards center */
-#answer-buttons {
-    margin: 0 auto;
-    width: 50%
+  
+.btn:hover {
+    border-color: black;
 }
 
-/* Hides any element with this class */
+  
+.start-btn {
+    font-size: 35px;
+    margin: 25px auto;
+}
+  
 .hide {
     display: none;
 }
