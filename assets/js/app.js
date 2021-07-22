@@ -40,7 +40,7 @@ formBtn.addEventListener("click", (event) => {
       localStorage.setItem("score", score);
     }
 
-    window.open("./highscore.html");
+    window.open("./pages/highscore.html");
 });
 
 /* Develop all neccessary functions */
