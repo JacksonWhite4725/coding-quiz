@@ -11,12 +11,10 @@ const questionElement = document.getElementById("question");
 const answerButtonsElement = document.getElementById("answer-buttons");
 
 /* Create backend variables */
-// These variables are empty at first, will go through a function that shuffles questions and uses the index to cycle through them
 let shuffledQuestions, currentQuestionIndex;
 let secondsLeft = 75;
 
 /* Adds event listeners to interact with the page */
-// This event listener waits for user to click the start button, then initializes the start game function
 startButton.addEventListener("click", startGame);
 
 // This event listener sets a new question when a user answers by clicking
@@ -28,7 +26,7 @@ answerButtonsElement.addEventListener("click", () => {
 /* Develop all neccessary functions */
 // This function begins the game, by calling on starting the timer, hiding the intro information, creating a randomized array of shuffled questions, displaying the question container, and calling on the set next question function
 function startGame() {
-    startTimer();
+    startTimer(shuffledQuestions, currentQuestionIndex);
     introContainerEl.classList.add("hide");
     startButton.classList.add("hide");
     shuffledQuestions = questions.sort(() => Math.random() - .5);
@@ -42,7 +40,7 @@ function startTimer() {
   var timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = "Time Left: " + secondsLeft;
-    if(secondsLeft === 0) {
+    if(secondsLeft === 0 || shuffledQuestions.length <= currentQuestionIndex + 1) {
       clearInterval(timerInterval);
       endGame();
     }
@@ -57,9 +55,6 @@ function setNextQuestion() {
 
 // This function takes in one question at a time, then displays the question text inside, and loops through each answer, creating a button for each. Additionally, it classifies which answers are correct and provides event listeners for each answer that calls the selectAnswer function
 function showQuestion(question) {
-  if (shuffledQuestions.length <= currentQuestionIndex + 1) {
-    endGame();
-  }
   questionElement.innerText = question.question;
   question.answers.forEach(answer => {
     const button = document.createElement("button");
