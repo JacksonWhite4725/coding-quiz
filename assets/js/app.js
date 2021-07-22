@@ -28,7 +28,7 @@ answerButtonsElement.addEventListener("click", () => {
 // This event listener adds the user's initials and score to local storage
 formBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    
+
     let initials = document.querySelector("#initials").value;
     if (initials === "") {
       console.log("Error! Initials must be added in order to submit!");
@@ -39,6 +39,8 @@ formBtn.addEventListener("click", (event) => {
       localStorage.setItem("initials", initials);
       localStorage.setItem("score", score);
     }
+
+    window.open("./highscore.html");
 });
 
 /* Develop all neccessary functions */
