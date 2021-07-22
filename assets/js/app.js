@@ -9,6 +9,8 @@ const timeEl = document.getElementById("timer");
 const questionContainerElement = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const answerButtonsElement = document.getElementById("answer-buttons");
+const formEl = document.getElementById("highscore-form");
+const userInitials = document.getElementById("initials");
 
 /* Create backend variables */
 let shuffledQuestions, currentQuestionIndex;
@@ -92,15 +94,20 @@ function setStatusClass(correct) {
   }
 }
 
-// Finishes the game, assigns the score to a stable variable, redevelops the page, and resets the timer
-function endGame() {
-  score = secondsLeft;
+function displayElements() {
   startButton.innerText = "Restart Game";
   startButton.classList.remove("hide");
   questionContainerElement.classList.add("hide");
-  introTitleEl.innerText = "You finished the quiz!";
-  introTextEl.classList.add("hide");
+  introTitleEl.innerText = "Congrats! You finished the quiz!";
+  introTextEl.innerText = "You're score was " + score + ". Put your initials below to register your highscore!";
   introContainerEl.classList.remove("hide");
+  formEl.classList.remove("hide");
+}
+
+// Finishes the game, assigns the score to a stable variable, redevelops the page, and resets the timer
+function endGame() {
+  score = secondsLeft;
+  displayElements();
   secondsLeft = 75;
 }
 
