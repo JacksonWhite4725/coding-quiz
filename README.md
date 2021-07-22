@@ -4,4 +4,4 @@ For this assignment, I was tasked with developing a coding quiz for basic JavaSc
 
 To view the page, see the image below or click the following link: https://jacksonwhite4725.github.io/coding-quiz/
 
-![Image of Application Front Page](../assets/images/code-quiz.png)
+![Image of Application Front Page](/assets/images/code-quiz.png)
