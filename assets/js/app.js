@@ -1,11 +1,11 @@
-/* This new app file is largely based on the logic from Web Dev Simplified - https://www.youtube.com/watch?v=riDzcEQbX6k&ab_channel=WebDevSimplified */
+/* This new app file is largely based on some of the logic from Web Dev Simplified - https://www.youtube.com/watch?v=riDzcEQbX6k&ab_channel=WebDevSimplified */
 
 /* Pull in HTML elements using element ID's */
 const startButton = document.getElementById("start-btn");
 const introContainerEl = document.getElementById("intro-container");
 const introTitleEl = document.getElementById("intro-title");
 const introTextEl = document.getElementById("intro-text");
-let timeEl = document.getElementById("timer");
+const timeEl = document.getElementById("timer");
 const questionContainerElement = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const answerButtonsElement = document.getElementById("answer-buttons");
@@ -35,7 +35,7 @@ function startGame() {
     setNextQuestion();
 }
 
-// This function begins a timer and updates it after it's called in the beginning of the game
+// This function begins a timer and updates it after it's called in the beginning of the game. Checks conditions to pause the timer and end the game
 function startTimer() {
   var timerInterval = setInterval(function() {
     secondsLeft--;
@@ -47,7 +47,7 @@ function startTimer() {
   }, 1000);
 }
 
-// This function first calls on the resetState function to clear out the container, then calls the showQuestion function by providing an index of our shuffled questions from the start game function. The index increases in value from the event listener above
+// This function first calls on the resetState function to clear out the container, then calls the showQuestion function by providing an index of our shuffled questions from the start game function
 function setNextQuestion() {
   resetState();
   showQuestion(shuffledQuestions[currentQuestionIndex]);
@@ -68,20 +68,21 @@ function showQuestion(question) {
   })
 }
 
-// Resets the page by calling clearStatusClass, then creates a while loop that removes all the children of of the answerButtonsElement so more can be created for the next question
+// Removes all the buttons from answered questions to reset page
 function resetState() {
   while (answerButtonsElement.firstChild) {
     answerButtonsElement.removeChild(answerButtonsElement.firstChild);
   }
 }
 
-// Takes in a random argument, assigns selected button a variable, as well as the correctness of the answer, then calls the setStatusClass function. Checks if there are still questions remaining, then hides or shows a start button based on the info.
+// Assigns users answer choice a variable and certifies whether or not it's correct
 function selectAnswer(e) {
     const selectedButton = e.target;
     const correct = selectedButton.dataset.correct;
     setStatusClass(correct);
 }
 
+// Creates a penalty if user's choice is wrong by deducting points
 function setStatusClass(correct) {
   if (correct) {
     console.log("That's correct!");
@@ -91,15 +92,19 @@ function setStatusClass(correct) {
   }
 }
 
+// Finishes the game, assigns the score to a stable variable, redevelops the page, and resets the timer
 function endGame() {
+  score = secondsLeft;
   startButton.innerText = "Restart Game";
   startButton.classList.remove("hide");
   questionContainerElement.classList.add("hide");
   introTitleEl.innerText = "You finished the quiz!";
   introTextEl.classList.add("hide");
   introContainerEl.classList.remove("hide");
+  secondsLeft = 75;
 }
 
+/* Create array of objects for questions */
 const questions = [
     {
         question: "Commonly used data types DO NOT include:",
