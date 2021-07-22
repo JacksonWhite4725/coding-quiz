@@ -10,7 +10,7 @@ const questionContainerElement = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
 const answerButtonsElement = document.getElementById("answer-buttons");
 const formEl = document.getElementById("highscore-form");
-const userInitials = document.getElementById("initials");
+const formBtn = document.getElementById("form-submit");
 
 /* Create backend variables */
 let shuffledQuestions, currentQuestionIndex;
@@ -25,15 +25,29 @@ answerButtonsElement.addEventListener("click", () => {
     setNextQuestion();
 })
 
+// This event listener adds the user's initials and score to local storage
+formBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    
+    let initials = document.querySelector("#initials").value;
+    if (initials === "") {
+      console.log("Error! Initials must be added in order to submit!");
+    } else if (initials.length > 4) {
+      console.log("Error! Initials length too long, please only add up to 4 initials!");
+    } else {
+      console.log("Success! Registered successfully!");
+      localStorage.setItem("initials", initials);
+      localStorage.setItem("score", score);
+    }
+});
+
 /* Develop all neccessary functions */
 // This function begins the game, by calling on starting the timer, hiding the intro information, creating a randomized array of shuffled questions, displaying the question container, and calling on the set next question function
 function startGame() {
     startTimer(shuffledQuestions, currentQuestionIndex);
-    introContainerEl.classList.add("hide");
-    startButton.classList.add("hide");
+    displayElementsBegin();
     shuffledQuestions = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
-    questionContainerElement.classList.remove("hide");
     setNextQuestion();
 }
 
@@ -94,7 +108,15 @@ function setStatusClass(correct) {
   }
 }
 
-function displayElements() {
+function displayElementsBegin() {
+  introContainerEl.classList.add("hide");
+  startButton.classList.add("hide");
+  formEl.classList.add("hide");
+  questionContainerElement.classList.remove("hide");
+}
+
+// Displays new elements at the end of the game
+function displayElementsEnd() {
   startButton.innerText = "Restart Game";
   startButton.classList.remove("hide");
   questionContainerElement.classList.add("hide");
@@ -107,8 +129,9 @@ function displayElements() {
 // Finishes the game, assigns the score to a stable variable, redevelops the page, and resets the timer
 function endGame() {
   score = secondsLeft;
-  displayElements();
+  displayElementsEnd();
   secondsLeft = 75;
+  return score;
 }
 
 /* Create array of objects for questions */
