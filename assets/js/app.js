@@ -34,6 +34,18 @@ function startGame() {
     setNextQuestion();
 }
 
+// This function begins a timer and updates it after it's called in the beginning of the game
+function startTimer() {
+  var secondsLeft = 75;
+  var timerInterval = setInterval(function() {
+    secondsLeft--;
+    timeEl.textContent = "Time Left: " + secondsLeft;
+    if(secondsLeft === 0) {
+      clearInterval(timerInterval);
+    }
+  }, 1000);
+}
+
 // This function first calls on the resetState function to clear out the container, then calls the showQuestion function by providing an index of our shuffled questions from the start game function. The index increases in value from the event listener above
 function setNextQuestion() {
   resetState();
@@ -42,6 +54,9 @@ function setNextQuestion() {
 
 // This function takes in one question at a time, then displays the question text inside, and loops through each answer, creating a button for each. Additionally, it classifies which answers are correct and provides event listeners for each answer that calls the selectAnswer function
 function showQuestion(question) {
+  if (shuffledQuestions.length <= currentQuestionIndex + 1) {
+    endGame();
+  }
   questionElement.innerText = question.question;
   question.answers.forEach(answer => {
     const button = document.createElement("button");
@@ -55,23 +70,8 @@ function showQuestion(question) {
   })
 }
 
-// This function begins a timer and updates it after it's called in the beginning of the game
-function startTimer() {
-    var secondsLeft = 75;
-    var timerInterval = setInterval(function() {
-      secondsLeft--;
-      timeEl.textContent = "Time Left: " + secondsLeft;
-  
-      if(secondsLeft === 0) {
-        clearInterval(timerInterval);
-        endGame();
-        }
-    }, 1000);
-}
-
 // Resets the page by calling clearStatusClass, then creates a while loop that removes all the children of of the answerButtonsElement so more can be created for the next question
 function resetState() {
-  clearStatusClass(document.body);
   while (answerButtonsElement.firstChild) {
     answerButtonsElement.removeChild(answerButtonsElement.firstChild);
   }
@@ -81,29 +81,21 @@ function resetState() {
 function selectAnswer(e) {
     const selectedButton = e.target;
     const correct = selectedButton.dataset.correct;
-    setStatusClass(document.body, correct);
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct);
-    });
-    if (shuffledQuestions.length <= currentQuestionIndex + 1) {
-        startButton.innerText = "Restart Game";
-        startButton.classList.remove("hide");
-        questionContainerElement.classList.add("hide");
-    }
+    setStatusClass(correct);
 }
 
-function setStatusClass(element, correct) {
-  clearStatusClass(element);
+function setStatusClass(correct) {
   if (correct) {
-    element.classList.add("correct");
+    console.log("That's correct!");
   } else {
-    element.classList.add("wrong");
+    console.log("That's wrong!");
   }
 }
 
-function clearStatusClass(element) {
-  element.classList.remove("correct");
-  element.classList.remove("wrong");
+function endGame() {
+  startButton.innerText = "Restart Game";
+  startButton.classList.remove("hide");
+  questionContainerElement.classList.add("hide");
 }
 
 const questions = [
