@@ -3,6 +3,8 @@
 /* Pull in HTML elements using element ID's */
 const startButton = document.getElementById("start-btn");
 const introContainerEl = document.getElementById("intro-container");
+const introTitleEl = document.getElementById("intro-title");
+const introTextEl = document.getElementById("intro-text");
 let timeEl = document.getElementById("timer");
 const questionContainerElement = document.getElementById("question-container");
 const questionElement = document.getElementById("question");
@@ -11,6 +13,7 @@ const answerButtonsElement = document.getElementById("answer-buttons");
 /* Create backend variables */
 // These variables are empty at first, will go through a function that shuffles questions and uses the index to cycle through them
 let shuffledQuestions, currentQuestionIndex;
+let secondsLeft = 75;
 
 /* Adds event listeners to interact with the page */
 // This event listener waits for user to click the start button, then initializes the start game function
@@ -36,12 +39,12 @@ function startGame() {
 
 // This function begins a timer and updates it after it's called in the beginning of the game
 function startTimer() {
-  var secondsLeft = 75;
   var timerInterval = setInterval(function() {
     secondsLeft--;
     timeEl.textContent = "Time Left: " + secondsLeft;
     if(secondsLeft === 0) {
       clearInterval(timerInterval);
+      endGame();
     }
   }, 1000);
 }
@@ -89,6 +92,7 @@ function setStatusClass(correct) {
     console.log("That's correct!");
   } else {
     console.log("That's wrong!");
+    secondsLeft = secondsLeft - 10;
   }
 }
 
@@ -96,6 +100,9 @@ function endGame() {
   startButton.innerText = "Restart Game";
   startButton.classList.remove("hide");
   questionContainerElement.classList.add("hide");
+  introTitleEl.innerText = "You finished the quiz!";
+  introTextEl.classList.add("hide");
+  introContainerEl.classList.remove("hide");
 }
 
 const questions = [
