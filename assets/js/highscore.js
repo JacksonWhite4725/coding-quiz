@@ -1,6 +1,11 @@
-let initials = localStorage.getItem(initials);
-let score = localStorage.getItem(score);
-let title = "Congrats " + initials + " on scoring " + score + "!";
-let newLi = $("<li></li>");
-newLi.append(title);
-$("#highscore-list").append(newLi1);
+let initials = window.localStorage.getItem("initials");
+let score = window.localStorage.getItem("score");
+
+function addLi() {
+    let highscore = "Congrats " + initials + " for scoring " + score + "!";
+    let newLi = $("<li></li>");
+    newLi.append(highscore);
+    $("#highscore-list").append(newLi);
+}
+
+addLi();
